@@ -1,29 +1,59 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>IP Verification</title>
-<meta charset="UTF-8">
-<script>
-(async () => {
-  try {
-    // Get public IP
-    const res = await fetch("https://api.ipify.org?format=json");
-    const data = await res.json();
-    const ip = data.ip;
-
-    // Replace BOT_USERNAME with your bot's @username
-    const botUsername = "BlockHagbot";
-    const deepLink = `https://t.me/${botUsername}?start=ip_${ip}`;
-
-    // Redirect back to Telegram bot with IP
-    window.location.href = deepLink;
-  } catch (err) {
-    document.body.innerHTML = "<h3>⚠️ Error getting your IP. Please try again.</h3>";
-  }
-})();
-</script>
+  <meta charset="UTF-8">
+  <title>IP Verification</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 50px;
+      background-color: #f4f4f4;
+    }
+    .box {
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      display: inline-block;
+      box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+    }
+    #status {
+      font-size: 18px;
+      color: #333;
+      margin-top: 10px;
+    }
+  </style>
 </head>
 <body>
-<h3>Verifying your IP...</h3>
+  <div class="box">
+    <h1>Verifying your IP...</h1>
+    <p id="status">Please wait</p>
+  </div>
+
+  <script>
+    // Get the IP using a free public API
+    fetch('https://api.ipify.org?format=json')
+      .then(res => res.json())
+      .then(data => {
+        const userIP = data.ip;
+        console.log("Your IP is:", userIP);
+
+        // Example: allow only a specific IP
+        const allowedIP = "123.45.67.89"; // change to the IP you want to allow
+
+        if (userIP === allowedIP) {
+          document.getElementById("status").innerHTML = 
+            "✅ Verification successful. You may proceed.";
+        } else {
+          document.getElementById("status").innerHTML = 
+            "❌ Verification failed. Access denied.";
+        }
+      })
+      .catch(err => {
+        console.error(err);
+        document.getElementById("status").innerHTML = 
+          "⚠ Error fetching IP. Please try again.";
+      });
+  </script>
 </body>
 </html>
