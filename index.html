@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>IP Verification</title>
+<meta charset="UTF-8">
+<script>
+(async () => {
+  try {
+    // Get public IP
+    const res = await fetch("https://api.ipify.org?format=json");
+    const data = await res.json();
+    const ip = data.ip;
+
+    // Replace BOT_USERNAME with your bot's @username
+    const botUsername = "BlockHagbot";
+    const deepLink = `https://t.me/${botUsername}?start=ip_${ip}`;
+
+    // Redirect back to Telegram bot with IP
+    window.location.href = deepLink;
+  } catch (err) {
+    document.body.innerHTML = "<h3>⚠️ Error getting your IP. Please try again.</h3>";
+  }
+})();
+</script>
+</head>
+<body>
+<h3>Verifying your IP...</h3>
+</body>
+</html>
